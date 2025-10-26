@@ -6,10 +6,10 @@ Get started with StockSentinel in 5 minutes! This guide will help you install an
 
 ### Step 1: Create the GitHub App
 
-1. Visit: https://github.com/settings/apps/new
-2. Click **"Create GitHub App from manifest"**
-3. Copy and paste the contents from [.github/app.yml](.github/app.yml)
-4. Click **"Create"**
+1. Visit: https://github.com/settings/apps/new?from_manifest=1
+2. Copy and paste the contents from [.github/app.yml](.github/app.yml)
+3. Click **"Create GitHub App from manifest"**
+4. The app will be created with all configured permissions
 
 ### Step 2: Install the App
 
