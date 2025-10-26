@@ -1,0 +1,24 @@
+name: StockSentinel
+description: A GitHub App for monitoring and analyzing stock market data, providing automated alerts and insights for repository-based stock tracking.
+url: https://github.com/djrams810/StockSentinel
+redirect_url: https://github.com/djrams810/StockSentinel
+
+# Webhook configuration
+default_events:
+  - issues
+  - pull_request
+  - push
+  - repository
+
+default_permissions:
+  # Repository permissions
+  contents: read
+  issues: write
+  pull_requests: write
+  metadata: read
+  
+  # Organization permissions
+  members: read
+
+# Public or private app
+public: false
