@@ -1,0 +1,44 @@
+{
+  "repository": "StockSentinel",
+  "description": "Example stock tracking configuration",
+  "stocks": [
+    {
+      "symbol": "AAPL",
+      "name": "Apple Inc.",
+      "alerts": {
+        "price_above": 200,
+        "price_below": 150,
+        "percent_change": 5
+      }
+    },
+    {
+      "symbol": "GOOGL",
+      "name": "Alphabet Inc.",
+      "alerts": {
+        "price_above": 150,
+        "price_below": 100,
+        "percent_change": 5
+      }
+    },
+    {
+      "symbol": "MSFT",
+      "name": "Microsoft Corporation",
+      "alerts": {
+        "price_above": 400,
+        "price_below": 300,
+        "percent_change": 5
+      }
+    }
+  ],
+  "alert_settings": {
+    "create_issues": true,
+    "send_notifications": true,
+    "update_frequency": "hourly",
+    "market_hours_only": false
+  },
+  "integrations": {
+    "github_app": true,
+    "webhook_url": "https://your-webhook-endpoint.com/stocksentinel",
+    "data_source": "api"
+  }
+}

@@ -1,0 +1,80 @@
+name: Validate Configurations
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - '.github/app.yml'
+      - 'examples/**'
+      - '.gitignore'
+      - 'scripts/validate.py'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - '.github/app.yml'
+      - 'examples/**'
+      - '.gitignore'
+      - 'scripts/validate.py'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validate Configuration Files
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+      
+      - name: Run validation script
+        run: |
+          python3 scripts/validate.py
+      
+      - name: Validate YAML syntax
+        run: |
+          python3 -c "import yaml; yaml.safe_load(open('.github/app.yml'))"
+          echo "✓ YAML syntax is valid"
+      
+      - name: Validate JSON syntax
+        run: |
+          python3 -m json.tool examples/stock-config.json > /dev/null
+          echo "✓ JSON syntax is valid"
+      
+      - name: Check for sensitive data
+        run: |
+          # Check for actual environment variable assignments, excluding documentation
+          if grep -r "PRIVATE_KEY=\|SECRET=\|PASSWORD=" --include="*.yml" --include="*.json" --exclude=".env.example" .; then
+            echo "❌ Potential sensitive data found in files"
+            exit 1
+          else
+            echo "✓ No sensitive data patterns detected"
+          fi
+
+  lint-markdown:
+    name: Lint Markdown Files
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Lint Markdown
+        uses: DavidAnson/markdownlint-cli2-action@f5b9bb6fc73e6f209dde8e8d0919a3ba9dcdd9a5  # v16
+        with:
+          globs: |
+            **/*.md
+            !node_modules
